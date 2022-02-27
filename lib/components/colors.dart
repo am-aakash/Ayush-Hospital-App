@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class COLORS {
+  static const Color primaryCol = Color(0xffFFF5D4);
   static const Color lightBlue = Color.fromARGB(64, 64, 179, 62);
   static const Color orangeHeavy = Color(0xffFF3200);
   static const Color orangeMedium = Color(0xffFF4112);
