@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,14 +56,18 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // IconButton(
-              //   icon: const Icon(AntIcons.caretRightOutlined),
-              //   onPressed: () {
-              //     customLog('Pressed on Ant Cloud icon');
-              //   },
-              // ),
             ),
+            Positioned(
+              right: 0,
+              bottom: SizeConfig.blockHeight * 40,
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/building.png'),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
