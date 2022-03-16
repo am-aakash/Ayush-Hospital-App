@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sih22/screens/home_page.dart';
 import 'package:sih22/screens/screens.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/home_screen': (context) => Container(),
+        '/home_screen': (context) => const HomePage(),
       },
     );
   }

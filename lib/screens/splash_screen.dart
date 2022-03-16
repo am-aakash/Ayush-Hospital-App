@@ -26,7 +26,11 @@ class SplashScreen extends StatelessWidget {
               // splashColor: Colors.blueGrey[800],
               // splashFactory: InkRipple.splashFactory,
               // radius: SizeConfig.blockWidth * 20,
-              child: Container(
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(context, '/home_screen');
+                },
                 child: Row(
                   children: [
                     Text(
@@ -50,7 +54,7 @@ class SplashScreen extends StatelessWidget {
           ),
           Container(
             height: SizeConfig.screenHeight,
-            width: SizeConfig.screenWidth,
+            // width: SizeConfig.screenWidth,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               color: COLORS.primaryCol,
@@ -81,17 +85,6 @@ class SplashScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Container(
-                //   height: SizeConfig.blockHeight * 30,
-                //   // width: SizeConfig.blockWidth * 100,
-                //   // margin: EdgeInsets.only(top: SizeConfig.blockHeight * 90),
-                //   decoration: BoxDecoration(
-                //     image: DecorationImage(
-                //       scale: 0.6,
-                //       image: AssetImage('assets/images/bgbuilding.png'),
-                //     ),
-                //   ),
-                // ),
                 Container(
                   height: SizeConfig.blockHeight * 35,
                   margin: EdgeInsets.only(top: SizeConfig.blockHeight * 6.2),
@@ -111,11 +104,20 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: SizeConfig.blockHeight * 36,
-                  margin: EdgeInsets.only(top: SizeConfig.blockHeight * 38),
+                  height: SizeConfig.blockHeight * 40,
+                  margin: EdgeInsets.only(top: SizeConfig.blockHeight * 35),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/text.png'),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: SizeConfig.blockHeight * 14,
+                  margin: EdgeInsets.only(top: SizeConfig.blockHeight * 72),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/ndhm.png'),
                     ),
                   ),
                 )
