@@ -1,9 +1,9 @@
-// ignore_for_file: prefer_const_constructors, unused_import, prefer_const_literals_to_create_immutables
-
+// ignore_for_file: prefer_const_constructors, unused_import, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_new,unused_local_variable
 import 'package:antdesign_icons/antdesign_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:sih22/components/colors.dart';
 import 'package:sih22/components/size_config.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -20,27 +20,52 @@ class _HomePageState extends State<HomePage> {
     target: LatLng(23.251270, 77.473770),
     zoom: 14.5,
   );
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  Location currentLocation = Location();
+
+  /// Set of displayed markers and cluster markers on the map
+  final Set<Marker> _markers = {};
   LatLng _center = LatLng(9.669111, 80.014007);
   bool isSearched = false;
 
   late GoogleMapController _googleMapController;
 
+  // void getLocation() async {
+  //   var location = await currentLocation.getLocation();
+  //   currentLocation.onLocationChanged.listen((LocationData loc) {
+  //     _googleMapController
+  //         .animateCamera(CameraUpdate.newCameraPosition(new CameraPosition(
+  //       target: LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0),
+  //       zoom: 12.0,
+  //     )));
+  //     print(loc.latitude);
+  //     print(loc.longitude);
+  //     setState(() {
+  //       _markers.add(Marker(
+  //           markerId: MarkerId('Current'),
+  //           position: LatLng(loc.latitude ?? 0.0, loc.longitude ?? 0.0)));
+  //     });
+  //   });
+  // }
+
   void _onMapCreated(GoogleMapController controller) {
     _googleMapController = controller;
 
-    final marker = Marker(
-      markerId: MarkerId('place_name'),
-      // position: LatLng(23.207377),
-      // icon: BitmapDescriptor.,
-      infoWindow: InfoWindow(
-        title: 'title',
-        snippet: 'address',
-      ),
-    );
+    // final marker = Marker(
+    //   markerId: MarkerId('place_name'),
+    //   // position: LatLng(23.207377),
+    //   // icon: BitmapDescriptor.,
+    //   infoWindow: InfoWindow(
+    //     title: 'title',
+    //     snippet: 'address',
+    //   ),
+    // );
+  }
 
+  @override
+  void initState() {
+    super.initState();
     setState(() {
-      markers[MarkerId('place_name')] = marker;
+      // getLocation();
     });
   }
 
@@ -62,6 +87,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   Container(
                     height: SizeConfig.blockHeight * 92,
+                    // Main map
                     child: GoogleMap(
                       // myLocationButtonEnabled: true,
                       myLocationEnabled: true,
@@ -69,7 +95,7 @@ class _HomePageState extends State<HomePage> {
                       initialCameraPosition: _initialCameraPosition,
                       onMapCreated: (controller) =>
                           _googleMapController = controller,
-                      markers: markers.values.toSet(),
+                      markers: _markers,
                     ),
                   ),
                   Container(
@@ -121,6 +147,7 @@ class _HomePageState extends State<HomePage> {
                     setState(() {
                       isSearched = !isSearched;
                     });
+                    // getLocation();
                   },
                   child: Container(
                     height: SizeConfig.blockWidth * 20,
