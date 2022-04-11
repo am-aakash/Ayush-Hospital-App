@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
 
     Marker marker1 = Marker(
       markerId: markerId1,
-      position: LatLng(23.26003895084259, 77.39235942445376),
+      position: LatLng(23.2600389508425, 77.3923594244537),
       icon: myIcon,
       onTap: () {
         _customInfoWindowController.addInfoWindow!(
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             hours: "Open 24 hours",
             beds: "800",
           ),
-          LatLng(23.26003895084259, 77.39235942445376),
+          LatLng(23.2600389508425, 77.3923594244537),
         );
       },
     );
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
           infoWindowHelper(
             name: "Navodaya Cancer Hospital",
             address:
-                "Nizamuddin Rd, Opp BHEL Gate#1, Indrapuri B Sector, Sector B, Indrapuri, Bhopal, Madhya Pradesh 462022",
+                "Nizamuddin Rd, Opp BHEL Gate#1, Indrapuri B Sector, Sector B, Indrapuri, Bhopal, \nMadhya Pradesh 462022",
             type: "Private (For Profit)",
             phone: "9827055790",
             hours: "Open 24 hours",
@@ -235,6 +235,7 @@ class _HomePageState extends State<HomePage> {
                       onCameraMove: (position) {
                         _customInfoWindowController.onCameraMove!();
                       },
+
                       markers: Set<Marker>.of(markers.values),
                     ),
                   ),
