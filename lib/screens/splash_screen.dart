@@ -38,7 +38,7 @@ class SplashScreen extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.blueGrey[800],
                         fontWeight: FontWeight.bold,
-                        fontSize: SizeConfig.blockWidth * 3.4,
+                        fontSize: SizeConfig.blockWidth * 3,
                         // height: SizeConfig.blockHeight * 0,
                       ),
                     ),
@@ -86,8 +86,8 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: SizeConfig.blockHeight * 35,
-                  margin: EdgeInsets.only(top: SizeConfig.blockHeight * 6.2),
+                  height: SizeConfig.blockHeight * 30,
+                  margin: EdgeInsets.only(top: SizeConfig.blockHeight * 10),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/building.png'),
@@ -95,8 +95,8 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: SizeConfig.blockHeight * 24,
-                  margin: EdgeInsets.only(top: SizeConfig.blockHeight * 20),
+                  height: SizeConfig.blockHeight * 20,
+                  margin: EdgeInsets.only(top: SizeConfig.blockHeight * 22.2),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/location.png'),
@@ -104,8 +104,8 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: SizeConfig.blockHeight * 40,
-                  margin: EdgeInsets.only(top: SizeConfig.blockHeight * 35),
+                  height: SizeConfig.blockHeight * 30,
+                  margin: EdgeInsets.only(top: SizeConfig.blockHeight * 34),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/text.png'),
@@ -113,7 +113,7 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: SizeConfig.blockHeight * 14,
+                  height: SizeConfig.blockHeight * 12,
                   margin: EdgeInsets.only(top: SizeConfig.blockHeight * 72),
                   decoration: BoxDecoration(
                     image: DecorationImage(
