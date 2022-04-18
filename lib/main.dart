@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashScreen(),
         '/home_screen': (context) => const HomePage(),
+        '/notification_page': (context) => const NotificationPage(),
       },
     );
   }
