@@ -10,6 +10,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'package:sih22/screens/drawer.dart';
+import 'package:sih22/screens/hospital_details/hospital_details_page.dart';
 import 'package:sih22/screens/map_helpers/info_window.dart';
 
 class HomePage extends StatefulWidget {
@@ -101,6 +102,14 @@ class _HomePageState extends State<HomePage> {
             phone: "0755 405 0450",
             hours: "Open 24 hours",
             beds: "800",
+            // ontap: () {
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute<void>(
+            //       builder: (BuildContext context) => HospitalDetailsPage(),
+            //     ),
+            //   );
+            // },
+            context: context,
           ),
           LatLng(23.2600389508425, 77.3923594244537),
         );
@@ -121,6 +130,14 @@ class _HomePageState extends State<HomePage> {
             phone: "9827055790",
             hours: "Open 24 hours",
             beds: "750",
+            // ontap: () {
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute<void>(
+            //       builder: (BuildContext context) => HospitalDetailsPage(),
+            //     ),
+            //   );
+            // },
+            context: context,
           ),
           LatLng(23.25300641419404, 77.46171626875504),
         );
@@ -140,6 +157,14 @@ class _HomePageState extends State<HomePage> {
             phone: "9713171857",
             hours: "Open 24 hours",
             beds: "500",
+            // ontap: () {
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute<void>(
+            //       builder: (BuildContext context) => HospitalDetailsPage(),
+            //     ),
+            //   );
+            // },
+            context: context,
           ),
           LatLng(23.171533935221994, 77.42227176875362),
         );
@@ -147,20 +172,22 @@ class _HomePageState extends State<HomePage> {
     );
     Marker marker4 = Marker(
       markerId: markerId4,
-      position: LatLng(23.250921734822512, 77.43062502457623),
+      position: LatLng(23.20525931966346, 77.40826379886849),
       icon: myIcon,
       onTap: () {
         _customInfoWindowController.addInfoWindow!(
           infoWindowHelper(
-            name: "OM HOSPITAL AND RESEARCH CENTRE",
-            address:
-                "OM Hospital, C-39 Padmanabh Nagar, Raisen Road, BHOPAL, MADHYA PRADESH, 462001",
-            type: "Private (For Profit)",
-            phone: "8871999994",
-            hours: "Open 24 hours",
-            beds: "300",
+            name:
+                "Pt. Khushilal Sharma Govt. Ayurveda College & Institute Bhopal",
+            address: "near Mpcost, Nehru Nagar, Bhopal, Madhya Pradesh 462007",
+            type: "Government",
+            phone: "07552970319",
+            hours: "Open 9am-2pm",
+            beds: "100",
+            context: context,
+            loc: LatLng(23.20525931966346, 77.40826379886849),
           ),
-          LatLng(23.250921734822512, 77.43062502457623),
+          LatLng(23.20525931966346, 77.40826379886849),
         );
       },
     );
@@ -177,6 +204,14 @@ class _HomePageState extends State<HomePage> {
             phone: "9893573779",
             hours: "Open 24 hours",
             beds: "600",
+            // ontap: () {
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute<void>(
+            //       builder: (BuildContext context) => HospitalDetailsPage(),
+            //     ),
+            //   );
+            // },
+            context: context,
           ),
           LatLng(23.302149058983957, 77.42394816690555),
         );
@@ -196,6 +231,14 @@ class _HomePageState extends State<HomePage> {
             phone: "9893230364",
             hours: "Open 24 hours",
             beds: "600",
+            // ontap: () {
+            //   Navigator.of(context).push(
+            //     MaterialPageRoute<void>(
+            //       builder: (BuildContext context) => HospitalDetailsPage(),
+            //     ),
+            //   );
+            // },
+            context: context,
           ),
           LatLng(23.268994534096244, 77.30806386875541),
         );
@@ -214,6 +257,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isHindi = false;
     return Scaffold(
       key: _scaffoldKey,
       drawer: drawerHelper(context),
@@ -225,7 +269,7 @@ class _HomePageState extends State<HomePage> {
               Column(
                 children: <Widget>[
                   Container(
-                    height: SizeConfig.blockHeight * 93,
+                    height: SizeConfig.blockHeight * 100,
                     // Main map
                     child: GoogleMap(
                       myLocationButtonEnabled: false,
@@ -242,43 +286,79 @@ class _HomePageState extends State<HomePage> {
                       markers: Set<Marker>.of(markers.values),
                     ),
                   ),
-                  Container(
-                    height: SizeConfig.blockHeight * 7,
-                    decoration: const BoxDecoration(
+                  // Container(
+                  //   height: SizeConfig.blockHeight * 7,
+                  //   decoration: const BoxDecoration(
+                  //     color: Colors.white,
+                  //     // borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //         color: Colors.black12,
+                  //         blurRadius: 2.0,
+                  //       ),
+                  //     ],
+                  //   ),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: <Widget>[
+                  //       Container(
+                  //         margin:
+                  //             EdgeInsets.only(left: SizeConfig.blockWidth * 10),
+                  //         child: Icon(
+                  //           AntIcons.userOutlined,
+                  //           size: SizeConfig.blockWidth * 7,
+                  //           color: COLORS.black,
+                  //         ),
+                  //       ),
+                  //       Container(
+                  //         margin: EdgeInsets.only(
+                  //             right: SizeConfig.blockWidth * 10),
+                  //         child: Icon(
+                  //           AntIcons.funnelPlotOutlined,
+                  //           size: SizeConfig.blockWidth * 7,
+                  //           color: COLORS.black,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                ],
+              ),
+              Positioned(
+                bottom: 40,
+                left: SizeConfig.blockWidth * 30,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/hospital_list');
+                  },
+                  child: Container(
+                    height: SizeConfig.blockHeight * 6,
+                    width: SizeConfig.blockWidth * 40,
+                    decoration: BoxDecoration(
                       color: Colors.white,
-                      // borderRadius: BorderRadius.all(Radius.circular(8)),
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      // border: Border.all(color: COLORS.black),
                       boxShadow: [
-                        BoxShadow(
+                        new BoxShadow(
                           color: Colors.black12,
-                          blurRadius: 2.0,
+                          blurRadius: 3.0,
                         ),
                       ],
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          margin:
-                              EdgeInsets.only(left: SizeConfig.blockWidth * 10),
-                          child: Icon(
-                            AntIcons.userOutlined,
-                            size: SizeConfig.blockWidth * 7,
-                            color: COLORS.black,
-                          ),
+                    child: Center(
+                      child: Text(
+                        'View List',
+                        style: TextStyle(
+                          fontSize: SizeConfig.blockWidth * 3.6,
+                          fontFamily: 'Poppins',
+                          color: COLORS.black,
+                          fontWeight: FontWeight.w500,
                         ),
-                        Container(
-                          margin: EdgeInsets.only(
-                              right: SizeConfig.blockWidth * 10),
-                          child: Icon(
-                            AntIcons.funnelPlotOutlined,
-                            size: SizeConfig.blockWidth * 7,
-                            color: COLORS.black,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ],
+                ),
               ),
               CustomInfoWindow(
                 controller: _customInfoWindowController,
@@ -287,32 +367,32 @@ class _HomePageState extends State<HomePage> {
                 offset: 0,
               ),
               // cneter icon
-              Positioned(
-                bottom: 0,
-                left: SizeConfig.blockWidth * 40,
-                child: InkWell(
-                  onTap: () {
-                    _currentLocation();
-                  },
-                  child: Container(
-                    height: SizeConfig.blockWidth * 20,
-                    width: SizeConfig.blockWidth * 20,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(SizeConfig.blockWidth * 20),
-                      ),
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.location_on,
-                        size: SizeConfig.blockWidth * 9,
-                        color: COLORS.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Positioned(
+              //   bottom: 15,
+              //   left: SizeConfig.blockWidth * 42.5,
+              //   child: InkWell(
+              //     onTap: () {
+              //       _currentLocation();
+              //     },
+              //     child: Container(
+              //       height: SizeConfig.blockWidth * 15,
+              //       width: SizeConfig.blockWidth * 15,
+              //       decoration: BoxDecoration(
+              //         color: Colors.white,
+              //         borderRadius: BorderRadius.all(
+              //           Radius.circular(SizeConfig.blockWidth * 20),
+              //         ),
+              //       ),
+              //       child: Center(
+              //         child: Icon(
+              //           Icons.location_on,
+              //           size: SizeConfig.blockWidth * 7,
+              //           color: COLORS.black,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Positioned(
                 top: SizeConfig.blockHeight * 7,
                 child: Container(
@@ -345,7 +425,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, '/notification_page');
+                          // Navigator.pushNamed(context, '/notification_page');
+                          _currentLocation();
                         },
                         child: Container(
                           height: SizeConfig.blockHeight * 5.2,
@@ -361,89 +442,13 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          child: Icon(Icons.notifications),
+                          child: Icon(Icons.location_on),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              // Positioned(
-              //   top: SizeConfig.blockHeight * 8,
-              //   child: Container(
-              //     margin: EdgeInsets.only(
-              //       top: SizeConfig.blockHeight * 8,
-              //       left: SizeConfig.blockWidth * 4,
-              //     ),
-              //     height: SizeConfig.blockHeight * 5.2,
-              //     width: SizeConfig.blockWidth * 92,
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: <Widget>[
-              //         Container(
-              //           width: SizeConfig.blockWidth * 78,
-              //           // height: SizeConfig.blockHeight * 6,
-              //           child: TextFormField(
-              //             style: TextStyle(
-              //               color: Colors.black,
-              //               // fontFamily: 'Rubik',
-              //               fontSize: SizeConfig.blockWidth * 4,
-              //               fontWeight: FontWeight.w300,
-              //             ),
-              //             decoration: InputDecoration(
-              //               filled: true,
-              //               fillColor: Colors.white,
-              //               focusedBorder: const OutlineInputBorder(
-              //                 borderRadius:
-              //                     BorderRadius.all(Radius.circular(8)),
-              //                 borderSide: BorderSide(
-              //                     // color: COLORS.black,
-              //                     ),
-              //               ),
-              //               enabledBorder: const OutlineInputBorder(
-              //                 borderRadius:
-              //                     BorderRadius.all(Radius.circular(8)),
-              //                 borderSide: BorderSide(
-              //                     // color: COLORS.black,
-              //                     ),
-              //               ),
-              //               hintText: "Enter Location",
-              //               hintStyle: TextStyle(
-              //                 color: Colors.grey[400],
-              //                 height: 0,
-              //                 fontFamily: 'Rubik',
-              //                 fontSize: SizeConfig.blockWidth * 4,
-              //                 fontWeight: FontWeight.w400,
-              //               ),
-              //               contentPadding: EdgeInsets.only(
-              //                 left: SizeConfig.blockWidth * 4,
-              //                 top: SizeConfig.blockHeight * 1.4,
-              //                 bottom: SizeConfig.blockHeight * 1.5,
-              //                 right: SizeConfig.blockWidth * 2,
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //         Container(
-              //           height: SizeConfig.blockHeight * 5.2,
-              //           width: SizeConfig.blockHeight * 5.2,
-              //           decoration: BoxDecoration(
-              //             color: Colors.white,
-              //             borderRadius: BorderRadius.all(Radius.circular(8)),
-              //             // border: Border.all(color: COLORS.black),
-              //             boxShadow: [
-              //               new BoxShadow(
-              //                 color: Colors.black12,
-              //                 blurRadius: 3.0,
-              //               ),
-              //             ],
-              //           ),
-              //           child: Icon(Icons.mic),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

@@ -1,5 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:sih22/screens/home_page.dart';
+import 'package:sih22/screens/hospital_list_page.dart';
 import 'package:sih22/screens/screens.dart';
 
 void main() {
@@ -19,8 +22,9 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const SplashScreen(),
+        '/': (context) => const Splash(),
         '/home_screen': (context) => const HomePage(),
+        '/hospital_list': (context) => const HospitalListPage(),
         '/notification_page': (context) => const NotificationPage(),
       },
     );

@@ -10,6 +10,8 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:clippy_flutter/triangle.dart';
 import 'package:sih22/screens/map_helpers/info_window.dart';
+import 'package:sih22/screens/notification_page.dart';
+import 'package:sih22/screens/yoga/yoga_screen.dart';
 
 Widget drawerHelper(BuildContext context) {
   bool isHindi = false;
@@ -107,132 +109,149 @@ Widget drawerHelper(BuildContext context) {
                 ],
               ),
             ),
-            _listTile(
-              icon: Icons.dashboard,
-              title: 'Dashboard',
-              onPressed: () {},
-            ),
-            _listTile(
-              icon: Icons.person,
-              title: 'My Profile',
-              onPressed: () {},
-            ),
-            _listTile(
-              icon: Icons.notifications,
-              title: 'News and Articles',
-              onPressed: () {
-                // Navigator.of(context).push(
-                //   MaterialPageRoute<void>(
-                //     builder: (BuildContext context) =>
-                //   ),
-                // );
-              },
-            ),
-            _listTile(
-              icon: AntIcons.medicineBoxFilled,
-              title: 'Treatment',
-              onPressed: () {
-                // Navigator.pushNamed(context, '/SearchHistoryScreen');
-              },
-            ),
-            _listTile(
-              icon: Icons.bed_sharp,
-              title: 'Bookings',
-              onPressed: () {},
-            ),
-            _listTile(
-              icon: Icons.school_rounded,
-              title: 'Education & Labs',
-              onPressed: () {},
-            ),
-            _listTile(
-              icon: Icons.reviews_rounded,
-              title: 'Reviews',
-              onPressed: () {},
-            ),
-            _listTile(
-              icon: Icons.add_call,
-              title: 'Ayush Telemedicinies',
-              onPressed: () {},
-            ),
-            _listTile(
-              icon: Icons.question_answer_rounded,
-              title: 'FAQs',
-              onPressed: () {},
-            ),
-            _listTile(
-              icon: Icons.feedback,
-              title: 'Feedback',
-              onPressed: () {},
-            ),
-            _listTile(
-              icon: Icons.info_outline_rounded,
-              title: 'About us',
-              onPressed: () {},
-            ),
             Container(
-              margin: EdgeInsets.only(
-                top: SizeConfig.blockHeight * 6,
-                left: SizeConfig.blockWidth * 10,
-                right: SizeConfig.blockWidth * 10,
-              ),
-              height: SizeConfig.blockHeight * 5,
-              // width: SizeConfig.blockWidth * ,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-                // border: Border.all(color: COLORS.primaryCol),
-                boxShadow: [
-                  new BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 3.0,
+              height: SizeConfig.blockHeight * 58,
+              child: Column(
+                children: [
+                  _listTile(
+                    icon: Icons.dashboard,
+                    title: 'Dashboard',
+                    onPressed: () {},
+                  ),
+                  _listTile(
+                    icon: Icons.notifications,
+                    title: 'News and Articles',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                NotificationPage()),
+                      );
+                    },
+                  ),
+                  _listTile(
+                    icon: Icons.category_rounded,
+                    title: 'Yoga',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                            builder: (BuildContext context) => YogaScreen()),
+                      );
+                    },
+                  ),
+                  _listTile(
+                    icon: AntIcons.medicineBoxFilled,
+                    title: 'Treatments',
+                    onPressed: () {
+                      // Navigator.pushNamed(context, '/SearchHistoryScreen');
+                    },
+                  ),
+
+                  // _listTile(
+                  //   icon: Icons.bed_sharp,
+                  //   title: 'Bookings',
+                  //   onPressed: () {},
+                  // ),
+                  // _listTile(
+                  //   icon: Icons.school_rounded,
+                  //   title: 'Education & Labs',
+                  //   onPressed: () {},
+                  // ),
+                  // _listTile(
+                  //   icon: Icons.reviews_rounded,
+                  //   title: 'Reviews',
+                  //   onPressed: () {},
+                  // ),
+                  // _listTile(
+                  //   icon: Icons.add_call,
+                  //   title: 'Ayush Telemedicinies',
+                  //   onPressed: () {},
+                  // ),
+                  _listTile(
+                    icon: Icons.question_answer_rounded,
+                    title: 'FAQs',
+                    onPressed: () {},
+                  ),
+                  _listTile(
+                    icon: Icons.feedback,
+                    title: 'Feedback',
+                    onPressed: () {},
+                  ),
+                  _listTile(
+                    icon: Icons.info_outline_rounded,
+                    title: 'About us',
+                    onPressed: () {},
                   ),
                 ],
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      isHindi = (!isHindi) ? false : true;
-                    },
-                    child: Container(
-                      child: Text(
-                        '   English',
-                        style: TextStyle(
-                          fontSize: SizeConfig.blockWidth * 3.6,
-                          fontFamily: 'Poppins',
-                          color:
-                              (!isHindi) ? Colors.amber[600] : Colors.black54,
-                          fontWeight:
-                              (!isHindi) ? FontWeight.w600 : FontWeight.w500,
+            ),
+            Positioned(
+              bottom: 0,
+              child: Container(
+                margin: EdgeInsets.only(
+                  top: SizeConfig.blockHeight * 6,
+                  left: SizeConfig.blockWidth * 10,
+                  right: SizeConfig.blockWidth * 10,
+                ),
+                height: SizeConfig.blockHeight * 5,
+                // width: SizeConfig.blockWidth * ,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  // border: Border.all(color: COLORS.primaryCol),
+                  boxShadow: [
+                    new BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 3.0,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        // isHindi = !isHindi;
+                      },
+                      child: Container(
+                        child: Text(
+                          '   English',
+                          style: TextStyle(
+                            fontSize: SizeConfig.blockWidth * 3.6,
+                            fontFamily: 'Poppins',
+                            color:
+                                (!isHindi) ? Colors.amber[600] : Colors.black54,
+                            fontWeight:
+                                (!isHindi) ? FontWeight.w600 : FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    height: SizeConfig.blockHeight * 3,
-                    width: 1.5,
-                    color: Colors.black26,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      isHindi = (isHindi) ? false : true;
-                    },
-                    child: Container(
-                      child: Text(
-                        '  हिन्दी     ',
-                        style: TextStyle(
-                          fontSize: SizeConfig.blockWidth * 3.6,
-                          fontFamily: 'Poppins',
-                          color: (isHindi) ? Colors.amber[600] : Colors.black54,
-                          fontWeight:
-                              (isHindi) ? FontWeight.w600 : FontWeight.w500,
+                    Container(
+                      height: SizeConfig.blockHeight * 3,
+                      width: 1.5,
+                      color: Colors.black26,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        isHindi = !isHindi;
+                      },
+                      child: Container(
+                        child: Text(
+                          '  हिन्दी     ',
+                          style: TextStyle(
+                            fontSize: SizeConfig.blockWidth * 3.6,
+                            fontFamily: 'Poppins',
+                            color:
+                                (isHindi) ? Colors.amber[600] : Colors.black54,
+                            fontWeight:
+                                (isHindi) ? FontWeight.w600 : FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             )
           ],

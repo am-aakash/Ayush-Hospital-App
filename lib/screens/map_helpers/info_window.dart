@@ -1,6 +1,8 @@
 import 'package:clippy_flutter/triangle.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sih22/components/size_config.dart';
+import 'package:sih22/screens/hospital_details/hospital_details_page.dart';
 
 Widget infoWindowHelper({
   @required String? name,
@@ -9,6 +11,8 @@ Widget infoWindowHelper({
   @required String? phone,
   @required String? hours,
   @required String? beds,
+  @required LatLng? loc,
+  @required context,
 }) {
   return Column(
     children: [
@@ -29,17 +33,32 @@ Widget infoWindowHelper({
         child: Expanded(
           child: Column(
             children: <Widget>[
-              Container(
-                height: SizeConfig.blockHeight * 3.2,
-                child: Text(
-                  "$name",
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w600,
-                    fontSize: SizeConfig.blockWidth * 4,
-                    color: Colors.amber[600],
-                    overflow: TextOverflow.ellipsis,
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                    builder: (BuildContext context) => HospitalDetailsPage(
+                      name: name,
+                      address: address,
+                      type: type,
+                      phone: phone,
+                      hours: hours,
+                      beds: beds,
+                      loc: loc,
+                    ),
+                  ));
+                },
+                child: Container(
+                  height: SizeConfig.blockHeight * 3.2,
+                  child: Text(
+                    "$name",
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      fontSize: SizeConfig.blockWidth * 4,
+                      color: Colors.amber[600],
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               ),

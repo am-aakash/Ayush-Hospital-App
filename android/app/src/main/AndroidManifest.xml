@@ -1,6 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sih22">
-   <application
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.sih22">
+    <queries>
+        <package android:name="com.google.android.apps.maps" />
+    </queries>
+    <application
         android:label="sih22"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
