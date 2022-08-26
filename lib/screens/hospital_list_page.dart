@@ -1,12 +1,15 @@
 // ignore_for_file: prefer_const_constructors, unused_import, prefer_const_literals_to_create_immutables, avoid_print, unnecessary_new,unused_local_variable
 import 'package:antdesign_icons/antdesign_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:sih22/components/colors.dart';
 import 'package:sih22/components/size_config.dart';
 import 'package:sih22/models/hospital.dart';
 import 'package:sih22/models/hospital_data.dart';
 import 'package:sih22/screens/drawer.dart';
 import 'package:sih22/screens/hospital_details/hospital_details_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HospitalListPage extends StatefulWidget {
   const HospitalListPage({Key? key}) : super(key: key);
@@ -16,7 +19,54 @@ class HospitalListPage extends StatefulWidget {
 }
 
 class _HospitalListPageState extends State<HospitalListPage> {
-  String dropdownValue = 'Kerala';
+  int stateValue = 0, typeValue = 0, publicValue = 0;
+  var public = [
+    'Show All',
+    'Public',
+    'Private',
+  ];
+  var type = [
+    'All Hospital Types',
+    'Ayurveda',
+    'Yoga',
+    'Homeopathy',
+    'Unani',
+    'Siddha',
+  ];
+  var states = [
+    'All States',
+    'Andaman & Nicobar Island',
+    'Andhra Pradesh',
+    'Assam',
+    'Bihar',
+    'Chandigarh',
+    'Dadra & Nagar Haveli ',
+    'Delhi',
+    'Goa, Daman & Diu ',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jammu & Kashmir',
+    'Kerala',
+    'Lakshadweep',
+    'Mizoram',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Karnataka (Mysore)',
+    'Nagaland',
+    'Orissa',
+    'Pondicherry',
+    'Punjab',
+    'Rajasthan',
+    'Tamil Nadu',
+    'Tripura',
+    'Uttar Pradesh',
+    'West Bengal',
+    'Sikkim',
+    'Mizoram'
+  ];
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -32,7 +82,7 @@ class _HospitalListPageState extends State<HospitalListPage> {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(
-                  top: SizeConfig.blockHeight * 5,
+                  top: SizeConfig.blockHeight * 19,
                   bottom: SizeConfig.blockHeight * 1,
                   left: SizeConfig.blockWidth * 4,
                   right: SizeConfig.blockWidth * 4,
@@ -41,14 +91,17 @@ class _HospitalListPageState extends State<HospitalListPage> {
                 child: ListView.builder(
                   itemCount: hospitals.length,
                   itemBuilder: (context, index) {
-                    return _hospitalBlock(
-                        hospitals[index], index, hospitals.length);
-                    // Column(
-                    //   crossAxisAlignment: CrossAxisAlignment.start,
-                    //   children: <Widget>[
-
-                    //   ],
-                    // );
+                    if ((stateValue == 0 ||
+                            stateValue == hospitals[index].state) &&
+                        (typeValue == 0 ||
+                            typeValue == hospitals[index].type) &&
+                        (publicValue == 0 ||
+                            publicValue == hospitals[index].public)) {
+                      return _hospitalBlock(
+                          hospitals[index], index, hospitals.length, context);
+                    } else {
+                      return Container();
+                    }
                   },
                 ),
               ),
@@ -122,7 +175,7 @@ class _HospitalListPageState extends State<HospitalListPage> {
                         onTap: () {},
                         child: Container(
                           height: SizeConfig.blockHeight * 5.2,
-                          width: SizeConfig.blockWidth * 50,
+                          width: SizeConfig.blockWidth * 74,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -134,50 +187,169 @@ class _HospitalListPageState extends State<HospitalListPage> {
                               ),
                             ],
                           ),
-                          child: DropdownButton<String>(
-                            value: dropdownValue,
-                            icon: Container(
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockHeight * 0.6,
-                                // bottom: SizeConfig.blockHeight * 1,
-                                // left: SizeConfig.blockWidth * 4,
-                                right: SizeConfig.blockWidth * 0,
-                              ),
-                              child:
-                                  const Icon(Icons.keyboard_arrow_down_rounded),
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              // top: SizeConfig.blockHeight * 0.6,
+                              // bottom: SizeConfig.blockHeight * 1,
+                              left: SizeConfig.blockWidth * 2,
+                              right: SizeConfig.blockWidth * 4,
                             ),
-                            elevation: 10,
-                            style: const TextStyle(color: Colors.deepPurple),
+                            // decoration: BoxDecoration(
+                            //   color: Colors.white,
+                            //   borderRadius:
+                            //       BorderRadius.all(Radius.circular(8)),
+                            //   // border: Border.all(color: COLORS.black),
+                            //   boxShadow: [
+                            //     new BoxShadow(
+                            //       color: Colors.black12,
+                            //       blurRadius: 3.0,
+                            //     ),
+                            //   ],
+                            // ),
+                            child: DropdownButton(
+                              // Initial Value
+                              value: states[stateValue],
+                              underline: Container(
+                                height: 2,
+                                color: Colors.white,
+                              ),
+                              // Down Arrow Icon
+                              icon: Container(
+                                margin: EdgeInsets.only(
+                                  top: SizeConfig.blockHeight * 0.7,
+                                  // bottom: SizeConfig.blockHeight * 1,
+                                  // left: SizeConfig.blockWidth * 9,
+                                  right: SizeConfig.blockWidth * 0,
+                                ),
+                                child: const Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  size: 28,
+                                ),
+                              ),
+
+                              // Array list of items
+                              items: states.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                      top: SizeConfig.blockHeight * 0.7,
+                                      // bottom: SizeConfig.blockHeight * 1,
+                                      left: SizeConfig.blockWidth * 2,
+                                      right: SizeConfig.blockWidth * 0,
+                                    ),
+                                    width: SizeConfig.blockWidth * 60.1,
+                                    child: Text(
+                                      items,
+                                      // maxLines: 2,
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: SizeConfig.blockWidth * 3.2,
+                                        color: Colors.amber[600],
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              // After selecting the desired option,it will
+                              // change button value to selected value
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  stateValue = states.indexOf(newValue!);
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: SizeConfig.blockHeight * 14,
+                child: Container(
+                  width: SizeConfig.blockWidth * 90,
+                  margin: EdgeInsets.symmetric(
+                      horizontal: SizeConfig.blockWidth * 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(
+                        height: SizeConfig.blockHeight * 5.2,
+                        width: SizeConfig.blockWidth * 28,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          // border: Border.all(color: COLORS.black),
+                          boxShadow: [
+                            new BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 3.0,
+                            ),
+                          ],
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            // top: SizeConfig.blockHeight * 0.6,
+                            // bottom: SizeConfig.blockHeight * 1,
+                            left: SizeConfig.blockWidth * 2,
+                            right: SizeConfig.blockWidth * 4,
+                          ),
+                          // decoration: BoxDecoration(
+                          //   color: Colors.white,
+                          //   borderRadius:
+                          //       BorderRadius.all(Radius.circular(8)),
+                          //   // border: Border.all(color: COLORS.black),
+                          //   boxShadow: [
+                          //     new BoxShadow(
+                          //       color: Colors.black12,
+                          //       blurRadius: 3.0,
+                          //     ),
+                          //   ],
+                          // ),
+                          child: DropdownButton(
+                            // Initial Value
+                            value: public[publicValue],
                             underline: Container(
                               height: 2,
                               color: Colors.white,
                             ),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                dropdownValue = newValue!;
-                              });
-                            },
-                            items: <String>[
-                              'Kerala',
-                              'Madhya Pradesh',
-                              'Maharashtra',
-                              'Delhi',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
+                            // Down Arrow Icon
+                            icon: Container(
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockHeight * 0.7,
+                                // bottom: SizeConfig.blockHeight * 1,
+                                // left: SizeConfig.blockWidth * 9,
+                                right: SizeConfig.blockWidth * 0,
+                              ),
+                              child: const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                size: 20,
+                              ),
+                            ),
+
+                            // Array list of items
+                            items: public.map((String items) {
+                              return DropdownMenuItem(
+                                value: items,
                                 child: Container(
                                   margin: EdgeInsets.only(
-                                    top: SizeConfig.blockHeight * 0.6,
+                                    top: SizeConfig.blockHeight * 0.7,
                                     // bottom: SizeConfig.blockHeight * 1,
-                                    left: SizeConfig.blockWidth * 4,
+                                    left: SizeConfig.blockWidth * 2,
                                     right: SizeConfig.blockWidth * 0,
                                   ),
+                                  width: SizeConfig.blockWidth * 16,
                                   child: Text(
-                                    value,
+                                    items,
+                                    // maxLines: 2,
                                     style: TextStyle(
                                       fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w500,
-                                      fontSize: SizeConfig.blockWidth * 4,
+                                      fontSize: SizeConfig.blockWidth * 3.2,
                                       color: Colors.amber[600],
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -185,6 +357,103 @@ class _HospitalListPageState extends State<HospitalListPage> {
                                 ),
                               );
                             }).toList(),
+                            // After selecting the desired option,it will
+                            // change button value to selected value
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                publicValue = public.indexOf(newValue!);
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: SizeConfig.blockHeight * 5.2,
+                        width: SizeConfig.blockWidth * 60,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          // border: Border.all(color: COLORS.black),
+                          boxShadow: [
+                            new BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 3.0,
+                            ),
+                          ],
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            // top: SizeConfig.blockHeight * 0.6,
+                            // bottom: SizeConfig.blockHeight * 1,
+                            left: SizeConfig.blockWidth * 2,
+                            right: SizeConfig.blockWidth * 4,
+                          ),
+                          // decoration: BoxDecoration(
+                          //   color: Colors.white,
+                          //   borderRadius:
+                          //       BorderRadius.all(Radius.circular(8)),
+                          //   // border: Border.all(color: COLORS.black),
+                          //   boxShadow: [
+                          //     new BoxShadow(
+                          //       color: Colors.black12,
+                          //       blurRadius: 3.0,
+                          //     ),
+                          //   ],
+                          // ),
+                          child: DropdownButton(
+                            // Initial Value
+                            value: type[typeValue],
+                            underline: Container(
+                              height: 2,
+                              color: Colors.white,
+                            ),
+                            // Down Arrow Icon
+                            icon: Container(
+                              margin: EdgeInsets.only(
+                                top: SizeConfig.blockHeight * 0.7,
+                                // bottom: SizeConfig.blockHeight * 1,
+                                // left: SizeConfig.blockWidth * 9,
+                                right: SizeConfig.blockWidth * 0,
+                              ),
+                              child: const Icon(
+                                Icons.keyboard_arrow_down_rounded,
+                                size: 28,
+                              ),
+                            ),
+
+                            // Array list of items
+                            items: type.map((String items) {
+                              return DropdownMenuItem(
+                                value: items,
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                    top: SizeConfig.blockHeight * 0.7,
+                                    // bottom: SizeConfig.blockHeight * 1,
+                                    left: SizeConfig.blockWidth * 2,
+                                    right: SizeConfig.blockWidth * 0,
+                                  ),
+                                  width: SizeConfig.blockWidth * 46,
+                                  child: Text(
+                                    items,
+                                    // maxLines: 2,
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: SizeConfig.blockWidth * 3.2,
+                                      color: Colors.amber[600],
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                            // After selecting the desired option,it will
+                            // change button value to selected value
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                typeValue = type.indexOf(newValue!);
+                              });
+                            },
                           ),
                         ),
                       ),
@@ -200,12 +469,14 @@ class _HospitalListPageState extends State<HospitalListPage> {
   }
 }
 
-Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
+Widget _hospitalBlock(
+    HospitalModel hospital, int index, int size, BuildContext context) {
+  // BuildContext context;
   return Container(
     margin: EdgeInsets.only(
       right: SizeConfig.blockWidth * 1,
       left: SizeConfig.blockWidth * 1,
-      top: (index == 0) ? SizeConfig.blockHeight * 5.5 : 0,
+      // top: (index == 0) ? SizeConfig.blockHeight * 0 : 0,
       bottom: (index == size - 1)
           ? SizeConfig.blockHeight * 8
           : SizeConfig.blockHeight * 1.5,
@@ -229,34 +500,37 @@ Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
     ),
     child: Stack(
       children: <Widget>[
-        // Positioned(
-        //   bottom: 0,
-        //   right: 0,
-        //   child: Container(
-        //     height: SizeConfig.blockHeight * 10,
-        //     width: SizeConfig.blockWidth * 36,
-        //     // margin: EdgeInsets.only(
-        //     //   right: SizeConfig.blockWidth * 2,
-        //     //   left: SizeConfig.blockWidth * 2,
-        //     //   bottom: 6,
-        //     // ),
-        //     decoration: BoxDecoration(
-        //       color: Colors.white,
-        //       borderRadius: BorderRadius.all(Radius.circular(4)),
-        //       // border: Border.all(color: COLORS.black),
-        //       // boxShadow: [
-        //       //   BoxShadow(
-        //       //     color: Colors.black12,
-        //       //     blurRadius: 3.0,
-        //       //   ),
-        //       // ],
-        //       image: DecorationImage(
-        //         image: NetworkImage("${hospital.photos!.first}"),
-        //         fit: BoxFit.cover,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+        if (hospital.phone != null)
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: InkWell(
+              onTap: () async {
+                // FlutterPhoneDirectCaller.callNumber(hospital.phone!);
+                launch("tel:${hospital.phone}");
+              },
+              child: Container(
+                height: SizeConfig.blockWidth * 8,
+                width: SizeConfig.blockWidth * 8,
+                decoration: BoxDecoration(
+                  color: Colors.amber[600],
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  // border: Border.all(color: COLORS.black),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 3.0,
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  // Icons.call
+                  CupertinoIcons.phone_fill,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
         Expanded(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.start,
@@ -265,11 +539,11 @@ Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
               Container(
                 height: SizeConfig.blockHeight * 18,
                 width: SizeConfig.blockWidth * 86,
-                // margin: EdgeInsets.only(
-                //   right: SizeConfig.blockWidth * 2,
-                //   left: SizeConfig.blockWidth * 2,
-                //   bottom: 6,
-                // ),
+                margin: EdgeInsets.only(
+                  // right: SizeConfig.blockWidth * 2,
+                  // left: SizeConfig.blockWidth * 2,
+                  bottom: 6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -288,23 +562,17 @@ Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
               ),
               InkWell(
                 onTap: () {
-                  // Navigator.of(context).push(MaterialPageRoute<void>(
-                  //   builder: (BuildContext context) => HospitalDetailsPage(
-                  //     name: name,
-                  //     address: address,
-                  //     type: type,
-                  //     phone: phone,
-                  //     hours: hours,
-                  //     beds: beds,
-                  //     loc: loc,
-                  //   ),
-                  // ));
+                  Navigator.of(context).push(MaterialPageRoute<void>(
+                    builder: (BuildContext context) => HospitalDetailsPage(
+                      hospital: hospital,
+                    ),
+                  ));
                 },
                 child: Container(
-                  height: SizeConfig.blockHeight * 3.2,
+                  // height: SizeConfig.blockHeight * 3.2,
                   child: Text(
                     "${hospital.name}",
-                    maxLines: 1,
+                    maxLines: 2,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
@@ -316,16 +584,16 @@ Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 4, bottom: 0),
-                height: SizeConfig.blockHeight * 6.6,
+                margin: EdgeInsets.only(top: 3, bottom: 6),
+                // height: SizeConfig.blockHeight * 6.6,
                 child: Text(
                   "${hospital.address}",
                   maxLines: 3,
                   style: TextStyle(
                     // fontFamily: 'Poppins',
                     fontWeight: FontWeight.w400,
-                    fontSize: SizeConfig.blockWidth * 2.5,
-                    color: Colors.grey[600],
+                    fontSize: SizeConfig.blockWidth * 2.6,
+                    color: Colors.grey[500],
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -342,7 +610,7 @@ Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
                     ),
                   ),
                   Text(
-                    "${(hospital.type == 1) ? "Ayurveda" : "Homeopathy"}",
+                    "${(hospital.type == 1) ? "Ayurveda" : (hospital.type == 2) ? "Yoga" : (hospital.type == 3) ? "Homeopathy" : (hospital.type == 4) ? "Unani" : "Siddha"}",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -374,10 +642,33 @@ Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
                   )
                 ],
               ),
+              if (hospital.phone != null)
+                Row(
+                  children: [
+                    Text(
+                      "Phone: ",
+                      style: TextStyle(
+                        // fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        fontSize: SizeConfig.blockWidth * 2.4,
+                        color: Colors.grey[800],
+                      ),
+                    ),
+                    Text(
+                      "${hospital.phone}",
+                      style: TextStyle(
+                        // fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500,
+                        fontSize: SizeConfig.blockWidth * 2.8,
+                        color: Colors.amber[800],
+                      ),
+                    )
+                  ],
+                ),
               Row(
                 children: [
                   Text(
-                    "Phone: ",
+                    "Total Available beds: ",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -386,7 +677,7 @@ Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
                     ),
                   ),
                   Text(
-                    "+91 6732768432",
+                    "${hospital.totalBeds}",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -399,7 +690,7 @@ Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
               Row(
                 children: [
                   Text(
-                    "Number of beds: ",
+                    "Current Available beds: ",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -408,7 +699,7 @@ Widget _hospitalBlock(HospitalModel hospital, int index, int size) {
                     ),
                   ),
                   Text(
-                    "${hospital.totalBeds}",
+                    "${hospital.currBeds}",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,

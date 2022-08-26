@@ -1,17 +1,14 @@
+// ignore_for_file: prefer_const_constructors, unnecessary_new
+
 import 'package:clippy_flutter/triangle.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sih22/components/size_config.dart';
+import 'package:sih22/models/hospital.dart';
 import 'package:sih22/screens/hospital_details/hospital_details_page.dart';
 
 Widget infoWindowHelper({
-  @required String? name,
-  @required String? address,
-  @required String? type,
-  @required String? phone,
-  @required String? hours,
-  @required String? beds,
-  @required LatLng? loc,
+  @required HospitalModel? hospital,
   @required context,
 }) {
   return Column(
@@ -37,20 +34,14 @@ Widget infoWindowHelper({
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute<void>(
                     builder: (BuildContext context) => HospitalDetailsPage(
-                      name: name,
-                      address: address,
-                      type: type,
-                      phone: phone,
-                      hours: hours,
-                      beds: beds,
-                      loc: loc,
+                      hospital: hospital,
                     ),
                   ));
                 },
                 child: Container(
                   height: SizeConfig.blockHeight * 3.2,
                   child: Text(
-                    "$name",
+                    "${hospital!.name}",
                     maxLines: 1,
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -66,8 +57,9 @@ Widget infoWindowHelper({
                 margin: EdgeInsets.only(top: 4, bottom: 0),
                 height: SizeConfig.blockHeight * 5.8,
                 child: Text(
-                  "$address",
+                  "${hospital.address}",
                   maxLines: 3,
+                  textAlign: TextAlign.left,
                   style: TextStyle(
                     // fontFamily: 'Poppins',
                     fontWeight: FontWeight.w400,
@@ -89,7 +81,7 @@ Widget infoWindowHelper({
                     ),
                   ),
                   Text(
-                    "$type",
+                    "${hospital.type}",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -111,7 +103,7 @@ Widget infoWindowHelper({
                     ),
                   ),
                   Text(
-                    "$hours",
+                    "${hospital.openHours}",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -133,7 +125,7 @@ Widget infoWindowHelper({
                     ),
                   ),
                   Text(
-                    "$phone",
+                    "${hospital.phone}",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
@@ -155,7 +147,7 @@ Widget infoWindowHelper({
                     ),
                   ),
                   Text(
-                    "$beds",
+                    "${hospital.totalBeds}",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,

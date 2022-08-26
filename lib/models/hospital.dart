@@ -9,8 +9,9 @@ class HospitalModel {
   int? ipd;
   int? opd;
   String? name;
+  String? phone;
   String? address;
-  bool? isPublic;
+  int? public;
   String? openHours;
   LatLng? latLng;
   List<String>? photos;
@@ -23,11 +24,12 @@ class HospitalModel {
     this.state,
     this.totalBeds,
     this.ipd,
+    this.phone,
     this.opd,
     this.currBeds,
     this.name,
     this.address,
-    this.isPublic,
+    this.public,
     this.openHours,
     this.latLng,
     this.photos,

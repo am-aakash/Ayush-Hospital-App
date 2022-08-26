@@ -1,32 +1,20 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
+ 
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:sih22/components/size_config.dart';
+import 'package:sih22/models/hospital.dart';
 import 'package:sih22/screens/hospital_details/facilites_card.dart';
 import 'package:sih22/screens/hospital_details/image_card.dart';
 import 'package:sih22/screens/hospital_details/specializations_card.dart';
 
 class HospitalDetailsPage extends StatefulWidget {
   const HospitalDetailsPage({
-    Key? key,
-    this.name,
-    this.address,
-    this.type,
-    this.phone,
-    this.hours,
-    this.beds,
-    this.loc,
-  }) : super(key: key);
-  final String? name;
-  final String? address;
-  final String? type;
-  final String? phone;
-  final String? hours;
-  final String? beds;
-  final LatLng? loc;
+    this.hospital,
+  });
+  final HospitalModel? hospital;
   State<HospitalDetailsPage> createState() => _HospitalDetailsPageState();
 }
 
@@ -48,7 +36,7 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
     _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         bearing: 0,
-        target: LatLng(location.latitude!, location.longitude!),
+        target: widget.hospital!.latLng!,
         zoom: 17.0,
       ),
     ));
@@ -77,7 +65,7 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
     listMarkerIds.add(markerId1);
     Marker marker1 = Marker(
       markerId: markerId1,
-      position: LatLng(23.20525931966346, 77.40826379886849),
+      position: widget.hospital!.latLng!,
       icon: myIcon,
     );
     setState(() {
@@ -101,7 +89,7 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     right: SizeConfig.blockWidth * 2,
                   ),
                   child: Text(
-                    "${widget.name}",
+                    "${widget.hospital!.name}",
                     maxLines: 4,
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -139,7 +127,7 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     right: SizeConfig.blockWidth * 5,
                   ),
                   child: Text(
-                    "${widget.address}",
+                    "${widget.hospital!.address}",
                     maxLines: 3,
                     style: TextStyle(
                       // fontFamily: 'Poppins',
@@ -175,7 +163,7 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     myLocationEnabled: true,
                     zoomControlsEnabled: true,
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(23.20525931966346, 77.40826379886849),
+                      target: widget.hospital!.latLng!,
                       zoom: 13,
                     ),
                     markers: Set<Marker>.of(markers.values),
@@ -202,7 +190,9 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                         ),
                       ),
                       Text(
-                        "${widget.type}",
+                        (widget.hospital!.type == 1)
+                            ? "Ayurveda"
+                            : "Homeopathy",
                         maxLines: 3,
                         style: TextStyle(
                           // fontFamily: 'Poppins',
@@ -236,8 +226,77 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                         ),
                       ),
                       Text(
-                        "${widget.hours}",
+                        "${widget.hospital!.openHours}",
                         maxLines: 3,
+                        style: TextStyle(
+                          // fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: SizeConfig.blockWidth * 3.2,
+                          color: Colors.amber[600],
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (widget.hospital!.phone != null)
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockHeight * 1,
+                      bottom: SizeConfig.blockHeight * 0.5,
+                      left: SizeConfig.blockWidth * 5,
+                      // right: SizeConfig.blockWidth * 10,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "Phone: ",
+                          maxLines: 3,
+                          style: TextStyle(
+                            // fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: SizeConfig.blockWidth * 3.2,
+                            color: Colors.black,
+                            // overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          "${widget.hospital!.phone}",
+                          maxLines: 3,
+                          style: TextStyle(
+                            // fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: SizeConfig.blockWidth * 3.2,
+                            color: Colors.amber[600],
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                Container(
+                  margin: EdgeInsets.only(
+                    top: SizeConfig.blockHeight * 1,
+                    bottom: SizeConfig.blockHeight * 0.5,
+                    left: SizeConfig.blockWidth * 5,
+                    // right: SizeConfig.blockWidth * 10,
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        "Total Available beds: ",
+                        // maxLines: 3,
+                        style: TextStyle(
+                          // fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                          fontSize: SizeConfig.blockWidth * 3.2,
+                          color: Colors.black,
+                          // overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Text(
+                        "${widget.hospital!.totalBeds}",
+                        // maxLines: 3,
                         style: TextStyle(
                           // fontFamily: 'Poppins',
                           fontWeight: FontWeight.w600,
@@ -259,8 +318,8 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        "Phone: ",
-                        maxLines: 3,
+                        "Current Available beds: ",
+                        // maxLines: 3,
                         style: TextStyle(
                           // fontFamily: 'Poppins',
                           fontWeight: FontWeight.w600,
@@ -270,7 +329,7 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                         ),
                       ),
                       Text(
-                        "${widget.phone}",
+                        "${widget.hospital!.totalBeds}",
                         maxLines: 3,
                         style: TextStyle(
                           // fontFamily: 'Poppins',
@@ -283,6 +342,76 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     ],
                   ),
                 ),
+                if (widget.hospital!.ipd != 0)
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockHeight * 1,
+                      bottom: SizeConfig.blockHeight * 0.5,
+                      left: SizeConfig.blockWidth * 5,
+                      // right: SizeConfig.blockWidth * 10,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "In-patient Number: ",
+                          // maxLines: 3,
+                          style: TextStyle(
+                            // fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: SizeConfig.blockWidth * 3.2,
+                            color: Colors.black,
+                            // overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          "${widget.hospital!.ipd}",
+                          maxLines: 3,
+                          style: TextStyle(
+                            // fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: SizeConfig.blockWidth * 3.2,
+                            color: Colors.amber[600],
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (widget.hospital!.opd != 0)
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: SizeConfig.blockHeight * 1,
+                      bottom: SizeConfig.blockHeight * 0.5,
+                      left: SizeConfig.blockWidth * 5,
+                      // right: SizeConfig.blockWidth * 10,
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "Out-patient Number: ",
+                          // maxLines: 3,
+                          style: TextStyle(
+                            // fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: SizeConfig.blockWidth * 3.2,
+                            color: Colors.black,
+                            // overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          "${widget.hospital!.opd}",
+                          maxLines: 3,
+                          style: TextStyle(
+                            // fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                            fontSize: SizeConfig.blockWidth * 3.2,
+                            color: Colors.amber[600],
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 Container(
                   margin: EdgeInsets.only(
                     top: SizeConfig.blockHeight * 1,
@@ -290,54 +419,18 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     left: SizeConfig.blockWidth * 5,
                     // right: SizeConfig.blockWidth * 10,
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        "Total beds: ",
-                        maxLines: 3,
-                        style: TextStyle(
-                          // fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: SizeConfig.blockWidth * 3.2,
-                          color: Colors.black,
-                          // overflow: TextOverflow.ellipsis,
-                        ),
+                  child: Center(
+                    child: Text(
+                      "Hospital Images",
+                      maxLines: 3,
+                      style: TextStyle(
+                        // fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: SizeConfig.blockWidth * 3.6,
+                        color: Colors.black,
+                        // overflow: TextOverflow.ellipsis,
                       ),
-                      Text(
-                        "${widget.beds}",
-                        maxLines: 3,
-                        style: TextStyle(
-                          // fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: SizeConfig.blockWidth * 3.2,
-                          color: Colors.amber[600],
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                    top: SizeConfig.blockHeight * 1,
-                    bottom: SizeConfig.blockHeight * 0.5,
-                    left: SizeConfig.blockWidth * 5,
-                    // right: SizeConfig.blockWidth * 10,
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        "Hospital Images: ",
-                        maxLines: 3,
-                        style: TextStyle(
-                          // fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: SizeConfig.blockWidth * 3.2,
-                          color: Colors.black,
-                          // overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 Container(
@@ -348,19 +441,12 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     right: SizeConfig.blockWidth * 2,
                   ),
                   height: SizeConfig.blockHeight * 22,
-                  child: ListView(
+                  child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      imageCard(
-                          uri:
-                              "https://www.edufever.com/wp-content/uploads/2019/07/Khushilal-Ayrvedic-College-Madhya-Pradesh.jpg"),
-                      imageCard(
-                          uri:
-                              "https://www.edufever.com/wp-content/uploads/2019/07/Khushilal-Ayrvedic-College-Madhya-Pradesh.jpg"),
-                      imageCard(
-                          uri:
-                              "https://www.edufever.com/wp-content/uploads/2019/07/Khushilal-Ayrvedic-College-Madhya-Pradesh.jpg"),
-                    ],
+                    itemCount: widget.hospital!.photos!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return imageCard(uri: widget.hospital!.photos![index]);
+                    },
                   ),
                 ),
                 Container(
@@ -370,20 +456,18 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     left: SizeConfig.blockWidth * 5,
                     // right: SizeConfig.blockWidth * 10,
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        "Specializations: ",
-                        maxLines: 3,
-                        style: TextStyle(
-                          // fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: SizeConfig.blockWidth * 3.2,
-                          color: Colors.black,
-                          // overflow: TextOverflow.ellipsis,
-                        ),
+                  child: Center(
+                    child: Text(
+                      "Specialization",
+                      maxLines: 3,
+                      style: TextStyle(
+                        // fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: SizeConfig.blockWidth * 3.6,
+                        color: Colors.black,
+                        // overflow: TextOverflow.ellipsis,
                       ),
-                    ],
+                    ),
                   ),
                 ),
                 Container(
@@ -394,59 +478,19 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     right: SizeConfig.blockWidth * 2,
                   ),
                   height: SizeConfig.blockHeight * 16,
-                  child: ListView(
+                  child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      specializationCard(
-                        name: "Cancer Treatment",
-                        desc: "provide some better solutions to cure cancer",
-                        prof: "Dr. Arun Singh",
-                        email: "arunsinghs1@xyz.com",
-                        phone: "+91 7244632892",
-                      ),
-                      specializationCard(
-                        name: "Cancer Treatment",
-                        desc: "provide some better solutions to cure cancer",
-                        prof: "Dr. Arun Singh",
-                        email: "arunsinghs1@xyz.com",
-                        phone: "+91 7244632892",
-                      ),
-                      specializationCard(
-                        name: "Cancer Treatment",
-                        desc: "provide some better solutions to cure cancer",
-                        prof: "Dr. Arun Singh",
-                        email: "arunsinghs1@xyz.com",
-                        phone: "+91 7244632892",
-                      ),
-                      specializationCard(
-                        name: "Cancer Treatment",
-                        desc: "provide some better solutions to cure cancer",
-                        prof: "Dr. Arun Singh",
-                        email: "arunsinghs1@xyz.com",
-                        phone: "+91 7244632892",
-                      ),
-                      specializationCard(
-                        name: "name",
-                        desc: "desc",
-                        prof: "prof",
-                        email: "email",
-                        phone: "phone",
-                      ),
-                      specializationCard(
-                        name: "name",
-                        desc: "desc",
-                        prof: "prof",
-                        email: "email",
-                        phone: "phone",
-                      ),
-                      specializationCard(
-                        name: "name",
-                        desc: "desc",
-                        prof: "prof",
-                        email: "email",
-                        phone: "phone",
-                      ),
-                    ],
+                    itemCount: widget.hospital!.specs!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // return imageCard(uri: widget.hospital!.specs![index]);
+                      return specializationCard(
+                        name: widget.hospital!.specs![index].name,
+                        desc: widget.hospital!.specs![index].desc,
+                        prof: widget.hospital!.specs![index].doctor,
+                        email: widget.hospital!.specs![index].email,
+                        phone: widget.hospital!.specs![index].phone,
+                      );
+                    },
                   ),
                 ),
                 Container(
@@ -456,20 +500,18 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     left: SizeConfig.blockWidth * 5,
                     // right: SizeConfig.blockWidth * 10,
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                        "Facilities: ",
-                        maxLines: 3,
-                        style: TextStyle(
-                          // fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                          fontSize: SizeConfig.blockWidth * 3.2,
-                          color: Colors.black,
-                          // overflow: TextOverflow.ellipsis,
-                        ),
+                  child: Center(
+                    child: Text(
+                      "Hospital Facilities",
+                      maxLines: 3,
+                      style: TextStyle(
+                        // fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                        fontSize: SizeConfig.blockWidth * 3.6,
+                        color: Colors.black,
+                        // overflow: TextOverflow.ellipsis,
                       ),
-                    ],
+                    ),
                   ),
                 ),
                 Container(
@@ -480,41 +522,52 @@ class _HospitalDetailsPageState extends State<HospitalDetailsPage> {
                     right: SizeConfig.blockWidth * 2,
                   ),
                   height: SizeConfig.blockHeight * 22,
-                  child: ListView(
+                  child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    children: [
-                      facilitesCard(
-                        name: "Ayurveda Dispensary",
-                        desc: "All ayurveda and unani medicines available",
-                        uri:
-                            "https://newint.org/sites/default/files/blog/majority/2015/07/21/21.07.15-india-chemist-590.jpg",
-                      ),
-                      facilitesCard(
-                        name: "Operation theatres available",
-                        desc: "All Ayurvedic facilities available",
-                        uri:
-                            "https://static.toiimg.com/thumb/msid-78715506,width-1280,height-720,resizemode-4/.jpg",
-                      ),
-                      facilitesCard(
-                        name: "Ayurveda Dispensary",
-                        desc: "All ayurveda and unani medicines available",
-                        uri:
-                            "https://newint.org/sites/default/files/blog/majority/2015/07/21/21.07.15-india-chemist-590.jpg",
-                      ),
-                      facilitesCard(
-                        name: "Operation theatres available",
-                        desc: "All Ayurvedic facilities available",
-                        uri:
-                            "https://static.toiimg.com/thumb/msid-78715506,width-1280,height-720,resizemode-4/.jpg",
-                      ),
-                      facilitesCard(
-                        name: "Operation theatres available",
-                        desc: "All Ayurvedic facilities available",
-                        uri:
-                            "https://static.toiimg.com/thumb/msid-78715506,width-1280,height-720,resizemode-4/.jpg",
-                      ),
-                    ],
+                    itemCount: widget.hospital!.facilities!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return facilitesCard(
+                        name: widget.hospital!.facilities![index].name,
+                        desc: widget.hospital!.facilities![index].desc,
+                        uri: widget.hospital!.facilities![index].photo,
+                      );
+                    },
                   ),
+                  // child: ListView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   children: [
+                  //     facilitesCard(
+                  //       name: "Ayurveda Dispensary",
+                  //       desc: "All ayurveda and unani medicines available",
+                  //       uri:
+                  //           "https://newint.org/sites/default/files/blog/majority/2015/07/21/21.07.15-india-chemist-590.jpg",
+                  //     ),
+                  //     facilitesCard(
+                  //       name: "Operation theatres available",
+                  //       desc: "All Ayurvedic facilities available",
+                  //       uri:
+                  //           "https://static.toiimg.com/thumb/msid-78715506,width-1280,height-720,resizemode-4/.jpg",
+                  //     ),
+                  //     facilitesCard(
+                  //       name: "Ayurveda Dispensary",
+                  //       desc: "All ayurveda and unani medicines available",
+                  //       uri:
+                  //           "https://newint.org/sites/default/files/blog/majority/2015/07/21/21.07.15-india-chemist-590.jpg",
+                  //     ),
+                  //     facilitesCard(
+                  //       name: "Operation theatres available",
+                  //       desc: "All Ayurvedic facilities available",
+                  //       uri:
+                  //           "https://static.toiimg.com/thumb/msid-78715506,width-1280,height-720,resizemode-4/.jpg",
+                  //     ),
+                  //     facilitesCard(
+                  //       name: "Operation theatres available",
+                  //       desc: "All Ayurvedic facilities available",
+                  //       uri:
+                  //           "https://static.toiimg.com/thumb/msid-78715506,width-1280,height-720,resizemode-4/.jpg",
+                  //     ),
+                  //   ],
+                  // ),
                 ),
               ],
             ),
