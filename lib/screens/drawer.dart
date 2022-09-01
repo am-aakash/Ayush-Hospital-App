@@ -15,6 +15,8 @@ import 'package:sih22/screens/yoga/yoga_screen.dart';
 
 Widget drawerHelper(BuildContext context) {
   bool isHindi = false;
+  TextEditingController userInput = TextEditingController();
+  String text = "";
   return SafeArea(
     child: Container(
       width: SizeConfig.screenWidth * 0.8,
@@ -52,12 +54,18 @@ Widget drawerHelper(BuildContext context) {
                     width: SizeConfig.blockWidth * 54,
                     // height: SizeConfig.blockHeight * 6,
                     child: TextFormField(
+                      controller: userInput,
                       style: TextStyle(
                         color: Colors.black,
                         // fontFamily: 'Rubik',
                         fontSize: SizeConfig.blockWidth * 3.6,
                         fontWeight: FontWeight.w300,
                       ),
+                      onChanged: (value) {
+                        // setState(() {
+                        userInput.text = value.toString();
+                        // });
+                      },
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
@@ -141,7 +149,7 @@ Widget drawerHelper(BuildContext context) {
                   ),
                   _listTile(
                     icon: AntIcons.medicineBoxFilled,
-                    title: 'Treatments',
+                    title: 'Home Remedies',
                     onPressed: () {
                       // Navigator.pushNamed(context, '/SearchHistoryScreen');
                     },

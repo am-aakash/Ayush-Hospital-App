@@ -81,7 +81,7 @@ Widget infoWindowHelper({
                     ),
                   ),
                   Text(
-                    "${hospital.type}",
+                    "${(hospital.type == 1) ? "Ayurveda" : (hospital.type == 2) ? "Yoga" : (hospital.type == 3) ? "Homeopathy" : (hospital.type == 4) ? "Unani" : "Siddha"}",
                     style: TextStyle(
                       // fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
